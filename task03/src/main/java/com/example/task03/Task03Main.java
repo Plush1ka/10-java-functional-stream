@@ -22,6 +22,28 @@ public class Task03Main {
             Comparator<? super T> order,
             BiConsumer<? super T, ? super T> minMaxConsumer) {
 
-        // your implementation here
+        class MinMax {
+            T min, max;
+            boolean empty = true;
+
+            void add(T e){
+                if (empty){
+                    min = max = e;
+                    empty = false;
+                } else {
+                    if (order.compare(e, min) < 0) min = e;
+                    if (order.compare(e, max) > 0) max = e;
+                }
+            }
+        }
+
+        MinMax mima = new MinMax();
+        stream.forEach(mima::add);
+
+        if(mima.empty){
+            minMaxConsumer.accept(null, null);
+        } else {
+            minMaxConsumer.accept(mima.min, mima.max);
+        }
     }
 }
